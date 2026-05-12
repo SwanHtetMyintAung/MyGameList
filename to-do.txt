@@ -1,0 +1,2 @@
+-more /games features 
+and then add authentication for the route

@@ -1,0 +1,28 @@
+{
+    //this will be autofilled
+  "_id": "6821f4d9f98c7c61c1b4c001",
+  "name": "Cyberpunk 2077",
+  "developer": "CD Projekt Red",
+  "published": "2020-12-10T00:00:00.000Z",
+  "links": {
+    "main": "https://www.cyberpunk.net",
+    "steam": "https://store.steampowered.com/app/1091500/Cyberpunk_2077/",
+    "gog": "https://www.gog.com/en/game/cyberpunk_2077"
+  },
+  "requirements": {
+    "minimum": {
+      "cpu": "Intel Core i5-3570K / AMD FX-8310",
+      "gpu": "NVIDIA GTX 970 / AMD Radeon RX 470",
+      "videoMemory": "4 GB",
+      "memory": "8 GB RAM",
+      "diskSpace": "70 GB SSD"
+    },
+    "maximum": {
+      "cpu": "Intel Core i7-12700 / AMD Ryzen 7 7800X",
+      "gpu": "NVIDIA RTX 4080 / AMD RX 7900 XTX",
+      "videoMemory": "16 GB",
+      "memory": "32 GB RAM",
+      "diskSpace": "70 GB NVMe SSD"
+    }
+  }
+}
