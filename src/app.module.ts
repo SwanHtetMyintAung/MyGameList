@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { GameModule } from './games/games.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
+import { GenreModule } from './genre/genre.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { UsersModule } from './users/users.module';
       }),
     }),
     GameModule,
-    UsersModule
+    UsersModule,
+    GenreModule
   ],
   controllers: [],
   providers: [],

@@ -1,6 +1,4 @@
 {
-    //this will be autofilled
-  "_id": "6821f4d9f98c7c61c1b4c001",
   "name": "Cyberpunk 2077",
   "developer": "CD Projekt Red",
   "published": "2020-12-10T00:00:00.000Z",
@@ -23,6 +21,36 @@
       "videoMemory": "16 GB",
       "memory": "32 GB RAM",
       "diskSpace": "70 GB NVMe SSD"
+    }
+  }
+}
+
+
+
+{
+  "name": "Elden Ring",
+  "developer": "FromSoftware Inc.",
+  "published": "2022-02-25T00:00:00.000Z",
+  "genres": [],
+  "links": {
+    "main": "https://www.en.bandainamcoent.eu/elden-ring/elden-ring",
+    "steam": "https://store.steampowered.com/app/1245620/ELDEN_RING/",
+    "bandai": "https://www.bandainamcoent.com/games/elden-ring"
+  },
+  "requirements": {
+    "minimum": {
+      "cpu": "Intel Core i5-8400 / AMD Ryzen 3 3300X",
+      "gpu": "NVIDIA GTX 1060 3GB / AMD Radeon RX 580 4GB",
+      "videoMemory": "3 GB",
+      "memory": "12 GB RAM",
+      "diskSpace": "60 GB"
+    },
+    "maximum": {
+      "cpu": "Intel Core i7-8700K / AMD Ryzen 5 3600X",
+      "gpu": "NVIDIA GTX 1070 8GB / AMD Radeon RX Vega 56 8GB",
+      "videoMemory": "8 GB",
+      "memory": "16 GB RAM",
+      "diskSpace": "60 GB"
     }
   }
 }

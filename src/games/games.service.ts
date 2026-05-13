@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { Game, GameDocument } from './schemas/games.schema';
+import { UpdateGameDto } from './games.controller';
+import { CreateGameDto } from './dto/create-game.dto';
 
 @Injectable()
 export class GamesService {
@@ -11,24 +13,26 @@ export class GamesService {
     private gameModel: Model<GameDocument>,
   ) {}
   
-  async create(data: Partial<Game>) {
+  async create(data: CreateGameDto) {
     const game = new this.gameModel(data);
 
-    return game.save();
+    return await game.save();
   }
 
   async findAll() {
-    return this.gameModel.find();
+    const results = await this.gameModel.find()
+    return results 
   }
 
   async findOne(id: string) {
-    return this.gameModel.findById(id);
-  }
-  async findOneWithName(name:string){
-    const game =  this.gameModel.findOne({name}).exec()
+    const game = this.gameModel.findById(id);
     return game
   }
-  async update(id: string, data: Partial<Game>) {
+  async findOneWithName(name:string){
+    const game = await this.gameModel.findOne({name})
+    return game
+  }
+  async update(id: string, data: UpdateGameDto) {
     return this.gameModel.findByIdAndUpdate(
       id,
       data,
@@ -36,6 +40,13 @@ export class GamesService {
     );
   }
 
+async searchWithName(name: string) {
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+  return this.gameModel.find({
+    name: { $regex: escaped, $options: 'i' }
+  }).exec();
+}
   async remove(id: string) {
     return this.gameModel.findByIdAndDelete(id);
   }

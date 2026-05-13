@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
-
+import { HydratedDocument,Types } from 'mongoose';
+import { Genre } from '../../genre/schemas/genre.schema';
 export type GameDocument = HydratedDocument<Game>;
 
 @Schema({ _id: false })
@@ -48,6 +48,13 @@ export class Game {
   @Prop({ required: true })
   published!: Date;
 
+  @Prop({default:0})
+  reviews?: number 
+  @Prop({
+  type: [{ type: Types.ObjectId, ref: Genre.name }],
+  default: [],
+  })
+  genres!: Types.ObjectId[];
   @Prop({
     type: LinksSchema,
     required: true,
@@ -75,3 +82,11 @@ export class Game {
 
 
 export const GameSchema = SchemaFactory.createForClass(Game);
+//hooks
+GameSchema.pre('find', function() {
+  this.populate('genres');
+});
+
+GameSchema.pre('findOne', function() {
+  this.populate('genres');
+});
