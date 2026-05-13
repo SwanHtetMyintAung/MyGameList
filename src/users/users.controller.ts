@@ -4,7 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import type { Response } from 'express';
 
-import { Ok, Err } from "../utils/Result";
+import { Ok, Err, match, andThen, isOk } from "../utils/Result";
 import type { Result } from "../utils/Result"; // Import the type separately
 import { ErrorCodes } from 'src/utils/Errors'; // Use import type here too
 
@@ -16,52 +16,57 @@ export class UsersController {
 
 
   @ApiResponse({
-    "status":201,
+    status: 201, description: 'Success'
   })
   @Post()
   async create(@Body() createUserDto: CreateUserDto) : Promise<Result<string, ErrorCodes >>
     {
     const existingUser = await this.usersService.findOneWithEmail(createUserDto.email)
-    if(existingUser){
-      return Err(ErrorCodes.ValueConflict);
-
-    }
-    let user = this.usersService.create(createUserDto)
-    if(!user){
-      return Err(ErrorCodes.InternalServerErr);
+    if(isOk(existingUser)) {
+      return Err(ErrorCodes.DbValueAlreadyExists);
     }
     
-    return Ok("The user is successfully created")
+    // 2. Create the user (MUST await)
+    const result = await this.usersService.create(createUserDto);
+    
+    // Use andThen to transform the User object into a success string
+    return andThen(result, () => Ok("The user is successfully created"));
   }
 
 
   @Get()
-  async findAll() :Promise<Result<any, ErrorCodes>> {
-    let users = await this.usersService.findAll();
-    if(users.length === 0){
-      return Err(ErrorCodes.DbValueNotFound, "There is no users")
-    }
-    return Ok(users)
+  async findAll() :Promise<Result<any[], ErrorCodes>> {
+    const result = await this.usersService.findAll();
+
+    // Use andThen to handle the logic of "Empty array = Error"
+    return andThen(result, (users) => 
+      users.length > 0 
+        ? Ok(users) 
+        : Err(ErrorCodes.DbValueNotFound)
+    );
   }
 
 
   @Get(':id')
-  findOne(@Param('id') id: string) :Result<any, ErrorCodes> {
-    const user = this.usersService.findOne(id)
-    if(!user){
-      return Err(ErrorCodes.DbValueNotFound, "User not found.")
-    }
-    return Ok(user)
+  async findOne(@Param('id') id: string) :Promise<Result<any, ErrorCodes>> {
+    const result = await this.usersService.findOne(id);
+    
+    // Simplified: If findOne returns Ok(null) or Ok(user), handle it here
+    return andThen(result, (user) => 
+      user ? Ok(user) : Err(ErrorCodes.DbKeyNotFound)
+    );
   }
 
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string): Promise<Result<string, ErrorCodes>> {
     const result = await this.usersService.remove(id);
-    if(!result){
-      throw new InternalServerErrorException("Couldn't delete the user")
-    }else{
-      return "User deleted Successfully."
-    }
+    
+    // Return a success message if the deletion was successful
+    return andThen(result, (didDelete) => 
+      didDelete 
+        ? Ok("User deleted Successfully.") 
+        : Err(ErrorCodes.DbKeyNotFound)
+    );
   }
 }
