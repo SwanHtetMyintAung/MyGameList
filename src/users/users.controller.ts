@@ -4,6 +4,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import type { Response } from 'express';
 
+import { Ok, Err } from "../utils/Result";
+import type { Result } from "../utils/Result"; // Import the type separately
+import { ErrorCodes } from 'src/utils/Errors'; // Use import type here too
+
 
 @ApiTags("Users")
 @Controller('users')
@@ -15,34 +19,39 @@ export class UsersController {
     "status":201,
   })
   @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
+  async create(@Body() createUserDto: CreateUserDto) : Promise<Result<string, ErrorCodes >>
+    {
     const existingUser = await this.usersService.findOneWithEmail(createUserDto.email)
     if(existingUser){
-      throw new ConflictException("This email already exist.")
+      return Err(ErrorCodes.ValueConflict);
+
     }
     let user = this.usersService.create(createUserDto)
     if(!user){
-      throw new InternalServerErrorException()
+      return Err(ErrorCodes.InternalServerErr);
     }
-    return "User Created Successfully."
+    
+    return Ok("The user is successfully created")
   }
+
 
   @Get()
-  async findAll() {
+  async findAll() :Promise<Result<any, ErrorCodes>> {
     let users = await this.usersService.findAll();
     if(users.length === 0){
-      return "There are no users."
+      return Err(ErrorCodes.DbValueNotFound, "There is no users")
     }
-    return users
+    return Ok(users)
   }
 
+
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string) :Result<any, ErrorCodes> {
     const user = this.usersService.findOne(id)
     if(!user){
-      throw new NotFoundException("User not found.")
+      return Err(ErrorCodes.DbValueNotFound, "User not found.")
     }
-    return user
+    return Ok(user)
   }
 
 
