@@ -15,4 +15,5 @@ import { GenreController } from './genre.controller';
   providers: [GenreService],
   exports: [GenreService],
 })
-export class GenreModule {}
+export class GenreModule {
+}

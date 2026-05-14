@@ -11,7 +11,8 @@ export class GenreService {
   constructor(
     @InjectModel(Genre.name)
     private genreModel: Model<GenreDocument>,
-  ) {}
+  ) {
+  }
 
   async create(dto: CreateGenreDto) {
     return this.genreModel.create(dto);

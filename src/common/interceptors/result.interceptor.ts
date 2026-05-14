@@ -1,10 +1,4 @@
-import {
-  Injectable,
-  NestInterceptor,
-  ExecutionContext,
-  CallHandler,
-  HttpStatus,
-} from '@nestjs/common';
+import { CallHandler, ExecutionContext, HttpStatus, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ResultKind } from '../../utils/Result'; // Adjust path to your Result.ts
@@ -31,7 +25,7 @@ export class ResultInterceptor implements NestInterceptor {
           // 3. Handle Failure (Err)
           if (data.kind === ResultKind.Err) {
             const errorCode: ErrorCodes = data.error;
-            
+
             // Set the actual HTTP Status Code on the response object
             // This prevents it from always being "200 OK"
             response.status(this.mapErrorCodeToStatus(errorCode));

@@ -47,7 +47,7 @@ export function Ok<T>(value: T): Ok<T> {
 export function Err<E = ErrorCodes>(error: E): Err<E> {
   return {
     kind: ResultKind.Err,
-    error
+    error,
   };
 }
 
@@ -121,7 +121,7 @@ export function map<T, E, U>(
 
 export function mapErr<T, E, F>(
   result: Result<T, E>,
-  fn: (error: E) => F
+  fn: (error: E) => F,
 ): Result<T, F> {
   return isErr(result)
     ? Err(fn(result.error))
@@ -186,7 +186,7 @@ export function containsErr<T, E>(
 
 export async function fromPromise<T, E = ErrorCodes>(
   promise: Promise<T>,
-  mapError: (error: unknown) => E
+  mapError: (error: unknown) => E,
 ): Promise<Result<T, E>> {
   try {
     return Ok(await promise);

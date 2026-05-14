@@ -64,7 +64,7 @@ export function unwrap<T>(option: Option<T>): T {
     return option.value;
   }
 
-  throw new Error("Called unwrap on None");
+  throw new Error('Called unwrap on None');
 }
 
 export function unwrapOr<T>(
@@ -216,7 +216,7 @@ console.log(
 
 const result = match(a, {
   some: v => `Value = ${v}`,
-  none: () => "No value",
+  none: () => 'No value',
 });
 
 console.log(result);

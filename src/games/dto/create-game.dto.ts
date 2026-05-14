@@ -1,12 +1,12 @@
 import {
+  IsArray,
   IsDateString,
+  IsMongoId,
   IsNotEmpty,
   IsObject,
+  IsOptional,
   IsString,
   ValidateNested,
-  IsMongoId,
-  IsOptional,
-  IsArray
 } from 'class-validator';
 
 import { Type } from 'class-transformer';
@@ -42,7 +42,7 @@ export class CreateGameDto {
   @IsMongoId({ each: true })
   genres?: Types.ObjectId[];
 
-  
+
   @ValidateNested()
   @Type(() => LinksDto)
   links!: LinksDto;

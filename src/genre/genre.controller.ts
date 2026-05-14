@@ -6,7 +6,8 @@ import { UpdateGenreDto } from './dto/update-genre.dto';
 
 @Controller('genres')
 export class GenreController {
-  constructor(private readonly genreService: GenreService) {}
+  constructor(private readonly genreService: GenreService) {
+  }
 
   @Post()
   create(@Body() dto: CreateGenreDto) {

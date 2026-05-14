@@ -18,9 +18,10 @@ import { GenreModule } from './genre/genre.module';
     }),
     GameModule,
     UsersModule,
-    GenreModule
+    GenreModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+}

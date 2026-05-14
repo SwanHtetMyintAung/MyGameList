@@ -1,12 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument,Types } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 import { Genre } from '../../genre/schemas/genre.schema';
+
 export type GameDocument = HydratedDocument<Game>;
 
 @Schema({ _id: false })
 export class Requirement {
   @Prop({ required: true })
-    cpu!: string;
+  cpu!: string;
 
   @Prop({ required: true })
   gpu!: string;
@@ -39,7 +40,7 @@ export const LinksSchema = SchemaFactory.createForClass(Links);
 
 @Schema()
 export class Game {
-  @Prop({ required: true, unique:true })
+  @Prop({ required: true, unique: true })
   name!: string;
 
   @Prop({ required: true })
@@ -48,11 +49,11 @@ export class Game {
   @Prop({ required: true })
   published!: Date;
 
-  @Prop({default:0})
-  reviews?: number 
+  @Prop({ default: 0 })
+  reviews?: number;
   @Prop({
-  type: [{ type: Types.ObjectId, ref: Genre.name }],
-  default: [],
+    type: [{ type: Types.ObjectId, ref: Genre.name }],
+    default: [],
   })
   genres!: Types.ObjectId[];
   @Prop({
