@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import { Genre } from '../../genre/schemas/genre.schema';
+import { Review } from '../../review/schemas/review.schema'
+
 
 export type GameDocument = HydratedDocument<Game>;
 
@@ -50,7 +52,13 @@ export class Game {
   published!: Date;
 
   @Prop({ default: 0 })
-  reviews?: number;
+  reviewCount?: number;
+  @Prop({
+    type: [{ type: Types.ObjectId, ref: Review.name }],
+    default: [],
+  })
+  reviews?: Types.ObjectId[];
+
   @Prop({
     type: [{ type: Types.ObjectId, ref: Genre.name }],
     default: [],

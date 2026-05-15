@@ -4,6 +4,7 @@ import { GameModule } from './games/games.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { GenreModule } from './genre/genre.module';
+import { ReviewModule } from './review/review.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { GenreModule } from './genre/genre.module';
     GameModule,
     UsersModule,
     GenreModule,
+    ReviewModule,
   ],
   controllers: [],
   providers: [],
